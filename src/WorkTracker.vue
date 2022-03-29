@@ -9,8 +9,15 @@
       <button class="wt-button wt-button--gray">Pausar</button>
       <button class="wt-button wt-button--red" @click="toggleIsworking">Salir</button>
     </template>
-    <!-- TODO: AVATAR + active / inactive dot -->
-    <span class="wt-work-tracker__account" @click="toggleMenuVisibility">{{ currentUserFullName }}</span>
+    <div class="wt-work-tracker__avatar-wrapper">
+      <span :class="['wt-avatar', {'wt-avatar--active': isWorking}]"> 
+        {{ currentUserInitials }}
+      </span>
+    </div>
+    <span class="wt-work-tracker__account" @click="toggleMenuVisibility">
+      {{ currentUserFullName }}
+      <svg :class="menuToggleClass" xmlns="http://www.w3.org/2000/svg" width="14" height="14"><path style="fill:transparent" d="M0 0h14v14H0z" transform="rotate(-90 7 7)"/><path d="M12.5 13 9 9.5 12.5 6" transform="rotate(-90 7.625 10.125)" style="stroke:#3f3f3f;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.2px;fill:transparent"/></svg>
+    </span>
     <Menu v-if="isMenuVisible" />
   </div>
 </template>
@@ -158,12 +165,19 @@ export default {
     currentUserFullName() {
       return `${this.currentUser.employee.firstName} ${this.currentUser.employee.lastName}`;
     },
+    currentUserInitials() {
+      return this.currentUser.employee.firstName.charAt(0) + this.currentUser.employee.lastName.charAt(0);
+    },
     currentUserStartTime() {
       return new Date(this.currentUser.workEntryIn.date).getTime();
+    },
+    menuToggleClass() {
+      return this.isMenuVisible ? 'wt-work-tracker__menu-toggle  wt-work-tracker__menu-toggle--up' : 'wt-work-tracker__menu-toggle';
     },
   },
   methods: {
     toggleMenuVisibility() {
+      console.log('toggled');
       this.isMenuVisible = !this.isMenuVisible;
     },
     toggleIsworking() {
@@ -175,29 +189,69 @@ export default {
 </script>
 
 <style lang="scss">
-/* remove default VUE app styles */
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  display: flex;
+  justify-content: center;
 }
 
 .wt-work-tracker {
+  position: relative;
   display: flex;
   align-items: center;
   width: min-content;
-  padding: 8px 16px;
+  padding: 8px 32px;
+  margin-top: 64px;
   background-color: #DBDBDB;
-  border-radius: 24px;
+  border-radius: 40px;
 
   &__account {
-    padding: 0 16px 0 24px;
+    margin-left: 16px;
     white-space: nowrap;
+    font-weight: bold;;
+  }
+
+  &__avatar-wrapper {
+    padding-left: 14px;
+    margin-left: 8px;
+    border-left: 1px solid #B5B5B5;
+  }
+
+  &__menu-toggle {
+    margin: 0 0 -3px 4px;
+    transition: transform 0.3s 0.1s;
+
+    &--up {
+      transform: rotateX(180deg);
+      transform-origin: center center;
+    }
   }
 }
+
+.wt-avatar {
+    display: block;
+    position: relative;
+    padding: 7px;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: #FFF;
+    background-color: #707070;
+    border-radius: 50%;
+
+  &--active {
+    &:after {
+      position: absolute;
+      top: 4px;
+      right: -2px;
+      display: block;
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: #5EBEA3;
+      border-radius: 50%;
+    }
+  }
+  }
 
 .wt-button {
   display: flex;
