@@ -174,7 +174,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 /* remove default VUE app styles */
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -190,12 +190,13 @@ export default {
   align-items: center;
   width: min-content;
   padding: 8px 16px;
-  background-color: #D3D3D3;
+  background-color: #DBDBDB;
   border-radius: 24px;
-}
-.wt-work-tracker__account {
-  padding: 0 16px 0 24px;
-  white-space: nowrap;
+
+  &__account {
+    padding: 0 16px 0 24px;
+    white-space: nowrap;
+  }
 }
 
 .wt-button {
@@ -203,21 +204,21 @@ export default {
   justify-content: center;
   align-items: center;
   padding: 8px 40px;
+  margin: 8px;
   border-radius: 16px;
   border: none;
   color: #FFF;
-}
+  
+  &--green {
+    background: #5EBEA3;
+  }
 
-.wt-button--green {
-  background: #5EBEA3;
-}
+  &--gray {
+    background: #B5B5B5;
+  }
 
-.wt-button--gray {
-  background: #B5B5B5;
+  &--red {
+    background: #FF9984;
+  }
 }
-
-.wt-button--red {
-  background: #FF9984;
-}
-
 </style>

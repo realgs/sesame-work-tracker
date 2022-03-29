@@ -1,8 +1,10 @@
 <template>
-  <span class="wt-time wt-time--active">{{ timeWorking }}</span>
-  <span v-if="isWorking" 
-        class="wt-time wt-time--total">
-        / 08:00:00
+  <span class="wt-time">
+    {{ timeWorking }}
+    <span v-if="isWorking" 
+          class="wt-time__total">
+          / 08:00:00
+    </span>
   </span>
 </template>
 
@@ -55,9 +57,16 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .wt-time {
-    padding: 0 24px;
+    letter-spacing: 0.34px;
     white-space: nowrap;
+    margin-right: 24px;
+
+
+    &__total {
+      margin-right: 24px;
+      color: #B5B5B5;
+    }
   }
 </style>
