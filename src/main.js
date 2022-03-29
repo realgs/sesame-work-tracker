@@ -1,4 +1,4 @@
 import { createApp } from 'vue'
-import App from './App.vue'
+import WorkTracker from './WorkTracker.vue'
 
-createApp(App).mount('#app')
+createApp(WorkTracker).mount('#app')
