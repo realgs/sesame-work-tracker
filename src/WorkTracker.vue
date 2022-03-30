@@ -32,7 +32,7 @@
 
 <script>
 import TimeCounter from './components/TimeCounter.vue'
-import Menu from './components/Menu.vue';
+import Menu from './components/menu/Menu.vue';
 import { getEntries, checkin, checkout } from './services/api-requests.js';
 
 const EXEMPLARY_USER_ID = 'b0027fe5-f78b-459a-a1b4-0f452a004f87';
@@ -256,7 +256,7 @@ html, body {
   display: flex;
   align-items: center;
   width: min-content;
-  padding: 8px 32px;
+  padding: 4px 32px;
   margin-top: 64px;
   background-color: #DBDBDB;
   border-radius: 40px;
@@ -295,7 +295,7 @@ html, body {
 		height: 14px;
     padding: 7px;
     font-size: 11px;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.05px;
     color: #FFF;
     background-color: #707070;
     border-radius: 50%;
