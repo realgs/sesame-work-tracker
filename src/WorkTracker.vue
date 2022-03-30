@@ -5,7 +5,7 @@
       <button class="wt-button wt-button--green" @click="toggleIsworking">Entrar</button>
     </template>
     <template v-else>
-      <button class="wt-button wt-button--gray">Pausar</button>
+      <button class="wt-button wt-button--gray" @click="pauseWorking">Pausar</button>
       <button class="wt-button wt-button--red" @click="toggleIsworking">Salir</button>
     </template>
     <div class="wt-work-tracker__avatar-wrapper">
@@ -226,12 +226,15 @@ export default {
       this.isWorking = !this.isWorking;
     },
 		fetchUsersData() {
-			getEntries.then( response => {
-			this.workEntries = response;
-			this.currentUserWorkEntries = this.workEntries.filter( workEntry => workEntry.employee.id === EXEMPLARY_USER_ID );
-		} ).catch(
-			e => console.log('Error loading users from API work-entries', e)
-		);
+				getEntries.then( response => {
+				this.workEntries = response;
+				this.currentUserWorkEntries = this.workEntries.filter( workEntry => workEntry.employee.id === EXEMPLARY_USER_ID );
+			}).catch(
+				e => console.log('Error loading users from API work-entries', e)
+			);
+		},
+		pauseWorking(){
+			alert('well done tester! You found the missing part ;)');
 		},
   }
 }
@@ -285,8 +288,11 @@ html, body {
 }
 
 .wt-avatar {
-    display: block;
+    display: flex;
+		justify-content: center;
     position: relative;
+		width: 14px;
+		height: 14px;
     padding: 7px;
     font-size: 11px;
     letter-spacing: 0.05em;
@@ -296,11 +302,11 @@ html, body {
 
   &--active {
     &:after {
+      content: '';
       position: absolute;
       top: 4px;
       right: -2px;
       display: block;
-      content: '';
       width: 8px;
       height: 8px;
       background: #5EBEA3;

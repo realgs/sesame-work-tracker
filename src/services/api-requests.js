@@ -10,7 +10,7 @@ const CONFIG = {
     headers: { Authorization: `Bearer ${TOKEN}` }
 };
 
-const getEntries = axios.get( 
+const getEntries = axios.get (
     GET_ENTRIES_URL,
     CONFIG
 ).then(response => {
@@ -26,7 +26,7 @@ const checkin = ( bodyParams ) => {
         CONFIG
     ).then(response => {
         console.log(response);
-    } ).catch(
+    }).catch(
         e => console.log('API: error checking in', e)
     );
 };
@@ -38,7 +38,7 @@ const checkout = ( bodyParams ) => {
         CONFIG
     ).then(response => {
         console.log(response)
-    } ).catch(
+    }).catch(
         e => console.log('API: error checking out', e)
     );
 };

@@ -25,7 +25,7 @@ export default {
   },
   computed: {
     timeWorking() {
-      if (this.isWorking) {
+      if (this.startTime && this.currentTime) {
         const timePassed = this.currentTime - this.startTime;
         const hours = this.formatTimeUnit(timePassed / (1000 * 60 * 60));
         const minutes = this.formatTimeUnit(timePassed % (1000 * 60 * 60) / (1000 * 60));
@@ -46,17 +46,19 @@ export default {
     updateTime() {
       this.currentTime = new Date().getTime();
     },
-    startInterval() {
-      this.startTime = new Date().getTime();
-      this.currentTime = this.startTime;
-      setInterval(() => {
-        this.updateTime();
-      }, 1000);
-    },
   }, 
   watch: {
     isWorking: function (val) {
-      val && this.startInterval();
+      if (val && !this.interval) {
+        this.startTime = new Date().getTime();
+        this.currentTime = this.startTime;
+        this.interval = setInterval(() => {
+          this.updateTime();
+        }, 1000);
+      } else {
+        clearInterval(this.interval);
+        this.interval = null;
+      }
     },
   },
 }
