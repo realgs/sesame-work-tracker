@@ -1,6 +1,6 @@
 <template>
   <div class="wt-menu">
-    <span class="wt-menu__option">Mis cuentas</span>
+    <span class="wt-menu__option" @click="openAccounts">Mis cuentas</span>
     <span class="wt-menu__option">Vista empleado</span>
     <span class="wt-menu__option">Mi perfil</span>
     <span class="wt-menu__option">Cerrar sesión</span>
@@ -18,7 +18,10 @@ export default {
       required: false
     }
   },
-
+  methods: {
+    openAccounts() {
+    }
+  }
 }
 </script>
 
@@ -34,11 +37,11 @@ export default {
   border-radius: 16px;
 
   &__option {
-    margin: 32px 64px 0;
+    padding: 32px 64px 0;
     text-align: center;
     
     &:last-of-type {
-      margin-bottom: 32px;
+      padding-bottom: 32px;
     }
   }
 }

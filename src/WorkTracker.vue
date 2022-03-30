@@ -1,5 +1,5 @@
 <template>
-  <div class="wt-work-tracker">
+  <div class="wt-work-tracker"> 
     <TimeCounter :startTime="currentUserStartTime" 
                   :isWorking="isWorking" />
     <template v-if="!isWorking">
@@ -14,11 +14,14 @@
         {{ currentUserInitials }}
       </span>
     </div>
-    <span class="wt-work-tracker__account" @click="toggleMenuVisibility">
-      {{ currentUserFullName }}
-      <svg :class="menuToggleClass" xmlns="http://www.w3.org/2000/svg" width="14" height="14"><path style="fill:transparent" d="M0 0h14v14H0z" transform="rotate(-90 7 7)"/><path d="M12.5 13 9 9.5 12.5 6" transform="rotate(-90 7.625 10.125)" style="stroke:#3f3f3f;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.2px;fill:transparent"/></svg>
-    </span>
-    <Menu v-if="isMenuVisible" />
+    <div v-click-outside="hideMenu">
+      <span class="wt-work-tracker__account" 
+            @click="toggleMenuVisibility">
+        {{ currentUserFullName }}
+        <svg :class="menuToggleClass" xmlns="http://www.w3.org/2000/svg" width="14" height="14"><path style="fill:transparent" d="M0 0h14v14H0z" transform="rotate(-90 7 7)"/><path d="M12.5 13 9 9.5 12.5 6" transform="rotate(-90 7.625 10.125)" style="stroke:#3f3f3f;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.2px;fill:transparent"/></svg>
+      </span>
+      <Menu v-if="isMenuVisible" />
+    </div>
   </div>
 </template>
 
@@ -177,8 +180,10 @@ export default {
   },
   methods: {
     toggleMenuVisibility() {
-      console.log('toggled');
       this.isMenuVisible = !this.isMenuVisible;
+    },
+    hideMenu() {
+      this.isMenuVisible = false;
     },
     toggleIsworking() {
       //SEND POST REQ IN/OUT depending on isWorking status
@@ -189,6 +194,10 @@ export default {
 </script>
 
 <style lang="scss">
+
+html, body {
+  height: 100%;
+}
 
 #app {
   display: flex;
