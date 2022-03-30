@@ -1,33 +1,32 @@
 <template>
-  <div class="wt-work-tracker"> 
-	<TimeCounter :isWorking="isWorking" />
-	<template v-if="!isWorking">
-	  <button class="wt-button wt-button--green" @click="toggleIsworking">Entrar</button>
-	</template>
-	<template v-else>
-	  <button class="wt-button wt-button--gray" @click="pauseWorking">Pausar</button>
-	  <button class="wt-button wt-button--red" @click="toggleIsworking">Salir</button>
-	</template>
-	<div class="wt-work-tracker__avatar-wrapper">
-	  <span :class="['wt-avatar', {'wt-avatar--active': isWorking}]"> 
-		{{ currentUserInitials }}
-	  </span>
-	</div>
-	<div v-click-outside="hideMenu">
-	  <span class="wt-work-tracker__account" 
-			@click="toggleMenuVisibility">
-		{{ currentUserFullName }}
-		<svg v-if="currentUserFullName" 
-			:class="menuToggleClass" 
-			xmlns="http://www.w3.org/2000/svg" 
-			width="14" 
-			height="14">
+	<div class="wt-work-tracker"> 
+		<TimeCounter :isWorking="isWorking" />
+		<template v-if="!isWorking">
+			<button class="wt-button wt-button--green" @click="toggleIsworking">Entrar</button>
+		</template>
+		<template v-else>
+			<button class="wt-button wt-button--gray" @click="pauseWorking">Pausar</button>
+			<button class="wt-button wt-button--red" @click="toggleIsworking">Salir</button>
+		</template>
+		<div class="wt-work-tracker__avatar-wrapper">
+			<span :class="['wt-avatar', {'wt-avatar--active': isWorking}]"> 
+				{{ currentUserInitials }}
+			</span>
+		</div>
+		<div v-click-outside="hideMenu">
+			<span class="wt-work-tracker__account" @click="toggleMenuVisibility">
+				{{ currentUserFullName }}
+				<svg v-if="currentUserFullName" 
+					:class="menuToggleClass" 
+					xmlns="http://www.w3.org/2000/svg" 
+					width="14" 
+					height="14">
 					<path style="fill:transparent" d="M0 0h14v14H0z" transform="rotate(-90 7 7)"/><path d="M12.5 13 9 9.5 12.5 6" transform="rotate(-90 7.625 10.125)" style="stroke:#3f3f3f;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.2px;fill:transparent"/>
 				</svg>
-	  </span>
-	  <Menu v-if="isMenuVisible" />
+			</span>
+			<Menu v-if="isMenuVisible" />
+		</div>
 	</div>
-  </div>
 </template>
 
 <script>
@@ -87,7 +86,7 @@
 				this.isMenuVisible = false;
 			},
 			updatePosition() {
-				navigator.geolocation && navigator.geolocation.getCurrentPosition((position) => {
+				navigator.geolocation && navigator.geolocation.getCurrentPosition( (position) => {
 					this.position = position;
 				}, () => {
 					this.position = null;
@@ -136,7 +135,6 @@
 </script>
 
 <style lang="scss">
-
 	@font-face {
 		font-family: "CeraPro";
 		src: url('./assets/fonts/Cera-Pro-Bold.ttf') format("truetype");
@@ -179,9 +177,9 @@
 		}
 
 		&__avatar-wrapper {
-		padding-left: 14px;
-		margin-left: 8px;
-		border-left: 1px solid #B5B5B5;
+			padding-left: 14px;
+			margin-left: 8px;
+			border-left: 1px solid #B5B5B5;
 		}
 
 		&__menu-toggle {
