@@ -5,7 +5,6 @@ const GET_ENTRIES_URL = 'https://api.sesametime.com/schedule/v1/work-entries';
 const CHECKIN_URL = 'https://api.sesametime.com/schedule/v1/work-entries/clock-in';
 const CHECKOUT_URL = 'https://api.sesametime.com/schedule/v1/work-entries/clock-out';
 
-
 const CONFIG = {
     headers: { Authorization: `Bearer ${TOKEN}` }
 };
