@@ -59,8 +59,8 @@ export default {
     width: 16px;
     height: 16px;
     margin-left: -24px;
-    border-top: 1px solid lightgray;
-    border-left: 1px solid lightgray;
+    border-top: 1px solid #E9E9E9;
+    border-left: 1px solid #E9E9E9;
     background-color: #fff;
     transform: rotate(45deg);
     border-top-left-radius: 8px;

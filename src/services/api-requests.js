@@ -27,7 +27,7 @@ const checkin = ( bodyParams ) => {
     ).then(response => {
         console.log(response);
     }).catch(
-        e => console.log('API: error checking in', e)
+        e => console.log('API: error checking in, did you forget to check out of work?;)', e)
     );
 };
 
