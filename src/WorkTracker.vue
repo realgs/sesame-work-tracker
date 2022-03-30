@@ -1,7 +1,6 @@
 <template>
   <div class="wt-work-tracker"> 
-    <TimeCounter :startTime="currentUserStartTime" 
-                  :isWorking="isWorking" />
+    <TimeCounter :isWorking="isWorking" />
     <template v-if="!isWorking">
       <button class="wt-button wt-button--green" @click="toggleIsworking">Entrar</button>
     </template>
@@ -18,7 +17,13 @@
       <span class="wt-work-tracker__account" 
             @click="toggleMenuVisibility">
         {{ currentUserFullName }}
-        <svg :class="menuToggleClass" xmlns="http://www.w3.org/2000/svg" width="14" height="14"><path style="fill:transparent" d="M0 0h14v14H0z" transform="rotate(-90 7 7)"/><path d="M12.5 13 9 9.5 12.5 6" transform="rotate(-90 7.625 10.125)" style="stroke:#3f3f3f;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.2px;fill:transparent"/></svg>
+        <svg v-if="currentUserFullName" 
+						:class="menuToggleClass" 
+						xmlns="http://www.w3.org/2000/svg" 
+						width="14" 
+						height="14">
+					<path style="fill:transparent" d="M0 0h14v14H0z" transform="rotate(-90 7 7)"/><path d="M12.5 13 9 9.5 12.5 6" transform="rotate(-90 7.625 10.125)" style="stroke:#3f3f3f;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.2px;fill:transparent"/>
+				</svg>
       </span>
       <Menu v-if="isMenuVisible" />
     </div>
@@ -28,11 +33,16 @@
 <script>
 import TimeCounter from './components/TimeCounter.vue'
 import Menu from './components/Menu.vue';
+import { getEntries, checkin, checkout } from './services/api-requests.js';
+
+const EXEMPLARY_USER_ID = 'b0027fe5-f78b-459a-a1b4-0f452a004f87';
 
 export default {
   name: 'WorkTracker',
   data() {
     return {
+      workEntries: null,
+			currentUserWorkEntries: null,
       currentUserId: 0,
       isMenuVisible: false,
       isWorking: false
@@ -43,10 +53,10 @@ export default {
     Menu,
   },
   mounted() {
-    //GET data from API, update 'isWorking' 
+    this.fetchUsersData();
   },
   computed: {
-    users() {
+    hardcodedWorkEntries() {
       return [
         {
           "id": "00fe4df9-2ff1-45af-90bb-a95bed1d8c7e",
@@ -162,18 +172,23 @@ export default {
         }
       ];
     },
+		currentWorkEntry() {
+			//TODO future:  if working on 'pause' functionality - do not take the first/last work entry
+      return this.workEntries && this.workEntries[0];
+		},
     currentUser() {
-      return this.users[this.currentUserId];
+      return this.currentWorkEntry && this.currentWorkEntry.employee;
     },
     currentUserFullName() {
-      return `${this.currentUser.employee.firstName} ${this.currentUser.employee.lastName}`;
+      return this.currentUser && `${this.currentUser.firstName} ${this.currentUser.lastName}`;
     },
     currentUserInitials() {
-      return this.currentUser.employee.firstName.charAt(0) + this.currentUser.employee.lastName.charAt(0);
+      return this.currentUser ? (this.currentUser.firstName.charAt(0) + this.currentUser.lastName.charAt(0)) : 'AA';
     },
-    currentUserStartTime() {
-      return new Date(this.currentUser.workEntryIn.date).getTime();
-    },
+		//TODO future: use the below and pass it to TimeCounter as a prop if working on 'pause' functionality:
+    // currentUserStartTime() {
+    //   return new Date(this.currentWorkEntry && this.currentWorkEntry.workEntryIn.date).getTime();
+    // },
     menuToggleClass() {
       return this.isMenuVisible ? 'wt-work-tracker__menu-toggle  wt-work-tracker__menu-toggle--up' : 'wt-work-tracker__menu-toggle';
     },
@@ -186,9 +201,38 @@ export default {
       this.isMenuVisible = false;
     },
     toggleIsworking() {
-      //SEND POST REQ IN/OUT depending on isWorking status
+			if (this.isWorking) {
+				checkout({
+					"employeeId": EXEMPLARY_USER_ID,
+					"workEntryOut": {
+							"coordinates": {
+									"latitude": null,
+									"longitude": null
+							}
+					}
+				});
+			} else {
+				checkin({
+					"employeeId": EXEMPLARY_USER_ID,
+					"workEntryIn": {
+							"coordinates": {
+									"latitude": null,
+									"longitude": null
+							}
+					}
+				});
+			}
+			//TODO future: switch isWorking status only if response from API checkin/checkout is 200, (+update fetchUsersData)
       this.isWorking = !this.isWorking;
     },
+		fetchUsersData() {
+			getEntries.then( response => {
+			this.workEntries = response;
+			this.currentUserWorkEntries = this.workEntries.filter( workEntry => workEntry.employee.id === EXEMPLARY_USER_ID );
+		} ).catch(
+			e => console.log('Error loading users from API work-entries', e)
+		);
+		},
   }
 }
 </script>
@@ -215,6 +259,8 @@ html, body {
   border-radius: 40px;
 
   &__account {
+		display: block;
+		min-width: 150px;
     padding: 8px 0;
     margin-left: 16px;
     white-space: nowrap;
