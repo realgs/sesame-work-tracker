@@ -43,7 +43,7 @@ export default {
     overflow: hidden;
     
     &__option {
-      padding: 16px;
+      padding: 12px 16px;
       text-align: center;
       border-bottom: 1px solid lightgray;
       

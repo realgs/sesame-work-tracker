@@ -69,6 +69,7 @@ export default {
   }
 
   &__time-spent {
+    margin-top: 4px;
     color: lightgray;
     font-size: 10px;
     letter-spacing: 0.2px;
