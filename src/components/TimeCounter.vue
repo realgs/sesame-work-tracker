@@ -1,6 +1,6 @@
 <template>
   <span class="wt-time">
-    {{ timeWorking }}
+    <span class="wt-time__accomplished">{{ timeWorking }}</span>
     <span v-if="isWorking" 
           class="wt-time__total">
           / 08:00:00
@@ -70,6 +70,10 @@ export default {
     white-space: nowrap;
     margin-right: 12px;
 
+    &__accomplished {
+      display: inline-block;
+      min-width: 72px;
+    }
 
     &__total {
       margin-right: 8px;

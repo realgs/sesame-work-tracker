@@ -82,6 +82,7 @@ export default {
 
   &__show-more {
     position: absolute;
+    top: 18px;
     left: 12px;
   }
 }

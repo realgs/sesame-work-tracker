@@ -45,7 +45,8 @@ export default {
 			currentUserWorkEntries: null,
       currentUserId: 0,
       isMenuVisible: false,
-      isWorking: false
+      isWorking: false,
+			position: null,
     };
   },
   components: {
@@ -54,6 +55,7 @@ export default {
   },
   mounted() {
     this.fetchUsersData();
+		this.updatePosition();
   },
   computed: {
     hardcodedWorkEntries() {
@@ -200,14 +202,23 @@ export default {
     hideMenu() {
       this.isMenuVisible = false;
     },
+		updatePosition() {
+			navigator.geolocation && navigator.geolocation.getCurrentPosition( (position) => {
+					this.position = position;
+				}, () => {
+					this.position = null;
+			});
+		},
     toggleIsworking() {
+			this.updatePosition();
+
 			if (this.isWorking) {
 				checkout({
 					"employeeId": EXEMPLARY_USER_ID,
 					"workEntryOut": {
 							"coordinates": {
-									"latitude": null,
-									"longitude": null
+									"latitude": this.position.coords.latitude,
+									"longitude": this.position.coords.longitude
 							}
 					}
 				});
@@ -216,8 +227,8 @@ export default {
 					"employeeId": EXEMPLARY_USER_ID,
 					"workEntryIn": {
 							"coordinates": {
-									"latitude": null,
-									"longitude": null
+									"latitude": this.position.coords.latitude,
+									"longitude": this.position.coords.longitude
 							}
 					}
 				});
@@ -242,8 +253,21 @@ export default {
 
 <style lang="scss">
 
+@font-face {
+  font-family: "CeraPro";
+  src: url('./assets/fonts/Cera-Pro-Bold.ttf') format("truetype");
+	font-weight: bold;
+}
+
+@font-face {
+  font-family: "CeraPro";
+  src: url('./assets/fonts/Cera-Pro-Light.ttf') format("truetype");
+	font-weight: normal;
+}
+
 html, body {
   height: 100%;
+	font-family: CeraPro;
 }
 
 #app {
@@ -300,19 +324,19 @@ html, body {
     background-color: #707070;
     border-radius: 50%;
 
-  &--active {
-    &:after {
-      content: '';
-      position: absolute;
-      top: 4px;
-      right: -2px;
-      display: block;
-      width: 8px;
-      height: 8px;
-      background: #5EBEA3;
-      border-radius: 50%;
-    }
-  }
+		&--active {
+			&:after {
+				content: '';
+				position: absolute;
+				top: 4px;
+				right: -2px;
+				display: block;
+				width: 8px;
+				height: 8px;
+				background: #5EBEA3;
+				border-radius: 50%;
+			}
+		}
   }
 
 .wt-button {
