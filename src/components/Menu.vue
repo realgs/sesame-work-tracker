@@ -35,13 +35,20 @@ export default {
   right: 0;
   box-shadow: rgba(17, 17, 26, 0.085) 0px 4px 16px, rgba(17, 17, 26, 0.085) 0px 8px 24px, rgba(17, 17, 26, 0.085) 0px 16px 56px;
   border-radius: 16px;
+  overflow: hidden;
 
   &__option {
-    padding: 32px 64px 0;
+    padding: 16px 64px;
     text-align: center;
+    border-bottom: 1px solid lightgray;
     
+    &:hover {
+      color: #FFF;
+      background-color: lightgray;
+    }
+
     &:last-of-type {
-      padding-bottom: 32px;
+      border: none;
     }
   }
 }

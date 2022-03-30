@@ -215,6 +215,7 @@ html, body {
   border-radius: 40px;
 
   &__account {
+    padding: 8px 0;
     margin-left: 16px;
     white-space: nowrap;
     font-weight: bold;;
